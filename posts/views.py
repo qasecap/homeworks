@@ -1,7 +1,7 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 
-from posts.models import Post
+from posts.models import Post, Tag
 
 
 def hello(request):
@@ -17,5 +17,14 @@ def about(request):
 
 
 def get_posts(request):
-    posts = Post.objects.filter(is_published=True)
-    return render(request, "posts/posts_view.html", context={"posts": posts})
+    tag_id = request.GET.get("tag")
+    posts = Post.objects.filter(is_published=True).order_by("-published_at")
+    if tag_id:
+        posts = posts.filter(tags__id=tag_id)
+    tags = Tag.objects.all()
+    return render(request, "posts/posts_view.html", context={"posts": posts, "tags": tags, "selected_tag": tag_id})
+
+
+def get_post(request, id):
+    post = get_object_or_404(Post, pk=id)
+    return render(request, "posts/post_detail.html", context={"post": post})
