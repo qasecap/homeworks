@@ -34,6 +34,15 @@
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
                     <button class="btn btn-outline-success" type="submit">Search</button>
                 </form>
+
+                {% if user.is_authenticated %}
+                <div class="d-flex align-items-center ms-3">
+                    <a href="{% url 'edit_profile' %}" class="text-decoration-none me-2">{{ user.username }}</a>
+                    <a href="{% url 'logout' %}" class="btn btn-outline-secondary btn-sm">Выйти</a>
+                </div>
+                {% else %}
+                <a href="{% url 'login' %}" class="btn btn-outline-primary btn-sm ms-3">Войти</a>
+                {% endif %}
             </div>
         </div>
     </nav>

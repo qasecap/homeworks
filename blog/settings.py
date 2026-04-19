@@ -16,7 +16,10 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "posts",
+    "users",
 ]
+
+LOGIN_URL = "/users/login/"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
