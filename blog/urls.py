@@ -3,7 +3,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 
-from posts.views import PostDetailView, PostsListView, about, hello, main
+from posts.views import PostCreateView, PostDeleteView, PostDetailView, PostUpdateView, PostsListView, about, hello, main
 from users.views import EditProfileView, LoginView, LogoutView, RegisterView
 
 urlpatterns = [
@@ -13,6 +13,9 @@ urlpatterns = [
     path("about/", about),
     path("posts/", PostsListView.as_view(), name="post_list"),
     path("post/<int:pk>/", PostDetailView.as_view(), name="post_detail"),
+    path("post/create/", PostCreateView.as_view(), name="post_create"),
+    path("post/<int:pk>/edit/", PostUpdateView.as_view(), name="post_edit"),
+    path("post/<int:pk>/delete/", PostDeleteView.as_view(), name="post_delete"),
     path("users/register/", RegisterView.as_view(), name="register"),
     path("users/login/", LoginView.as_view(), name="login"),
     path("users/logout/", LogoutView.as_view(), name="logout"),

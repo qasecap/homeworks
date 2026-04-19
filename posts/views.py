@@ -1,10 +1,13 @@
 from typing import Any
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models.query import QuerySet
 from django.http import HttpRequest, HttpResponse, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
-from django.views.generic import DetailView, ListView
+from django.urls import reverse_lazy
+from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
+from posts.forms import PostForm
 from posts.models import Post, Tag
 
 
@@ -43,3 +46,23 @@ class PostDetailView(DetailView):
     model = Post
     template_name = "posts/post_detail.html"
     context_object_name = "post"
+
+
+class PostCreateView(LoginRequiredMixin, CreateView):
+    model = Post
+    form_class = PostForm
+    template_name = "posts/create_post.html"
+    success_url = reverse_lazy("post_list")
+
+
+class PostUpdateView(LoginRequiredMixin, UpdateView):
+    model = Post
+    form_class = PostForm
+    template_name = "posts/create_post.html"
+    success_url = reverse_lazy("post_list")
+
+
+class PostDeleteView(LoginRequiredMixin, DeleteView):
+    model = Post
+    template_name = "posts/post_confirm_delete.html"
+    success_url = reverse_lazy("post_list")
